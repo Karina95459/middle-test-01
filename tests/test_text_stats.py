@@ -1,6 +1,7 @@
 import pytest
 
-from src.text_stats import count_sentences, count_words, read_text_file
+from src.text_stats import count_sentences, count_words,get_text_statistics, read_text_file
+
 
 @pytest.fixture
 def invalid_extension_file(tmp_path):
@@ -53,3 +54,10 @@ def test_read_text_file_success(sample_text_file):
 def test_read_text_file_invalid_extension(invalid_extension_file):
     with pytest.raises(ValueError, match="The file must have a .txt extension."):
         read_text_file(str(invalid_extension_file))
+
+def test_get_text_statistics(sample_text_file):
+    stats = get_text_statistics(str(sample_text_file))
+    assert stats == {
+        "words": 8,
+        "sentences": 3,
+    }
