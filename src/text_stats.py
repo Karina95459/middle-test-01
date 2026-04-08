@@ -14,3 +14,9 @@ def read_text_file(file_path: str) -> str:
 def count_sentences(text: str) -> int:
     matches = re.findall(r"\.\.\.|[.!?]", text)
     return len(matches)
+
+def count_words(text: str) -> int:
+    cleaned_text = re.sub(r"\.\.\.|[.!?]", " ", text)
+    parts = re.split(r"[,\s:;]+", cleaned_text)
+    words = [part for part in parts if part]
+    return len(words)
