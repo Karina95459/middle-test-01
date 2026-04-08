@@ -27,3 +27,13 @@ def get_text_statistics(file_path: str) -> dict:
         "words": count_words(text),
         "sentences": count_sentences(text),
     }
+
+if __name__ == "__main__":
+    input_path = input("Enter path to .txt file: ").strip()
+
+    try:
+        stats = get_text_statistics(input_path)
+        print(f"Words: {stats['words']}")
+        print(f"Sentences: {stats['sentences']}")
+    except Exception as error:
+        print(f"Error: {error}")
