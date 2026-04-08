@@ -1,6 +1,19 @@
 import pytest
 
-from src.text_stats import count_sentences, count_words
+from src.text_stats import count_sentences, count_words, read_text_file
+
+@pytest.fixture
+def invalid_extension_file(tmp_path):
+    file_path = tmp_path / "sample.doc"
+    file_path.write_text("Some content", encoding="utf-8")
+    return file_path
+
+
+@pytest.fixture
+def sample_text_file(tmp_path):
+    file_path = tmp_path / "sample.txt"
+    file_path.write_text("Hello, world! How are you? I am fine...", encoding="utf-8")
+    return file_path
 
 
 @pytest.mark.parametrize(
@@ -30,3 +43,13 @@ def test_count_words(text, expected_words):
 )
 def test_count_sentences(text, expected_sentences):
     assert count_sentences(text) == expected_sentences
+
+
+def test_read_text_file_success(sample_text_file):
+    content = read_text_file(str(sample_text_file))
+    assert content == "Hello, world! How are you? I am fine..."
+
+
+def test_read_text_file_invalid_extension(invalid_extension_file):
+    with pytest.raises(ValueError, match="The file must have a .txt extension."):
+        read_text_file(str(invalid_extension_file))
