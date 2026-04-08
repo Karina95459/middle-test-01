@@ -20,3 +20,10 @@ def count_words(text: str) -> int:
     parts = re.split(r"[,\s:;]+", cleaned_text)
     words = [part for part in parts if part]
     return len(words)
+
+def get_text_statistics(file_path: str) -> dict:
+    text = read_text_file(file_path)
+    return {
+        "words": count_words(text),
+        "sentences": count_sentences(text),
+    }
